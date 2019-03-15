@@ -11,10 +11,13 @@
     "psr/http-message": "^1.0"
   },
   "suggest": {
-    "slim/slim": "Allows usage of slim-router."
+    "slim/slim": "Allows usage of slim-router.",
+    "nette/di": "Allows usage of Router in Nette DI container."
   },
   "require-dev": {
     "brandembassy/coding-standard": "^5.2",
+    "mockery/mockery": "^1.2",
+    "nette/di": "^2.4",
     "phpunit/phpunit": "^8",
     "roave/security-advisories": "dev-master",
     "slim/slim": "^3.12"
