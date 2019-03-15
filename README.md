@@ -36,7 +36,7 @@ urlGenerator:
         class: BrandEmbassy\Router\UrlGenerator
         factory: BrandEmbassy\Router\Bridge\Slim\SlimRouterNetteDiFactory::create(..., %app.routes%)
 
-    routeDispatcher:
-        class: BrandEmbassy\Router\RouteDispatcher
-        factory: BrandEmbassy\Router\Bridge\Slim\SlimRouterNetteDiFactory::create(..., %app.routes%)
+routeDispatcher:
+    class: BrandEmbassy\Router\RouteDispatcher
+    factory: BrandEmbassy\Router\Bridge\Slim\SlimRouterNetteDiFactory::create(..., %app.routes%)
 ```
