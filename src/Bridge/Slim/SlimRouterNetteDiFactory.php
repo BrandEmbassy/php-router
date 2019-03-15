@@ -74,12 +74,15 @@ final class SlimRouterNetteDiFactory
                 if (!isset($data['name'])) {
                     throw new LogicException(sprintf('Route with pattern: "%s" must have name.', $pattern));
                 }
+
+                $callbackProvider = function () use ($container, $data) {
+                    return self::getService($container, $data['service']);
+                };
+
                 $route = $router->map(
                     explode(self::METHOD_DELIMITER, $method),
                     $pattern,
-                    function (...$args) use ($container, $data) {
-                        return self::getService($container, $data['service'])(...$args);
-                    }
+                    new RouteCallbackAccessor($callbackProvider)
                 );
                 $route->setName($data['name']);
             }
