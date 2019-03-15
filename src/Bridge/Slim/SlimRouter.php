@@ -57,4 +57,16 @@ final class SlimRouter implements RouteDispatcher, UrlGenerator
     {
         return Uri::createFromString($this->router->pathFor($routePath, $params, $queryParams));
     }
+
+
+    /**
+     * @param string   $routePath
+     * @param string[] $params
+     * @param string[] $queryParams
+     * @return UriInterface
+     */
+    public function relativePathFor(string $routePath, array $params = [], array $queryParams = []): UriInterface
+    {
+        return Uri::createFromString($this->router->relativePathFor($routePath, $params, $queryParams));
+    }
 }

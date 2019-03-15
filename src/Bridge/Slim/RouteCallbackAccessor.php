@@ -4,7 +4,6 @@ namespace BrandEmbassy\Router\Bridge\Slim;
 
 final class RouteCallbackAccessor
 {
-
     /**
      * @var callable
      */
@@ -15,15 +14,18 @@ final class RouteCallbackAccessor
      */
     private $callback;
 
+
     public function __construct(callable $callbackLoader)
     {
         $this->callbackLoader = $callbackLoader;
     }
 
+
     public function __invoke(...$args)
     {
         return $this->getCallback()(...$args);
     }
+
 
     public function getCallback(): callable
     {
@@ -34,5 +36,4 @@ final class RouteCallbackAccessor
 
         return $this->callback;
     }
-
 }

@@ -9,7 +9,6 @@ use Slim\Router;
 use function explode;
 use function is_callable;
 use function sprintf;
-use function strtolower;
 
 final class SlimRouterNetteDiFactory
 {
@@ -18,28 +17,14 @@ final class SlimRouterNetteDiFactory
 
     /**
      * @param Container $container
-     * @param string    $namespace
      * @param mixed[]   $routes
      * @return RouteDispatcher
      */
-    public static function create(Container $container, string $namespace, array $routes): RouteDispatcher
+    public static function create(Container $container, array $routes): RouteDispatcher
     {
-        $router = self::createSlimRouter($container, $namespace, $routes);
+        $router = self::createSlimRouter($container, $routes);
 
         return new SlimRouter($router);
-    }
-
-
-    /**
-     * @param string  $namespace
-     * @param mixed[] $routes
-     * @return mixed[]
-     */
-    private static function getAppRoutes(string $namespace, array $routes): array
-    {
-        $namespace = strtolower($namespace);
-
-        return $routes[$namespace] ?? [];
     }
 
 
@@ -60,31 +45,31 @@ final class SlimRouterNetteDiFactory
 
     /**
      * @param Container $container
-     * @param string    $namespace
      * @param mixed[]   $routes
      * @return Router
      */
-    private static function createSlimRouter(Container $container, string $namespace, array $routes): Router
+    private static function createSlimRouter(Container $container, array $routes): Router
     {
         $router = new Router();
 
-        $routes = self::getAppRoutes($namespace, $routes);
-        foreach ($routes as $pattern => $definition) {
-            foreach ($definition as $method => $data) {
-                if (!isset($data['name'])) {
-                    throw new LogicException(sprintf('Route with pattern: "%s" must have name.', $pattern));
+        foreach ($routes as $namespace => $namespacedRoutes) {
+            foreach ($namespacedRoutes as $pattern => $definition) {
+                foreach ($definition as $method => $data) {
+                    if (!isset($data['name'])) {
+                        throw new LogicException(sprintf('Route with pattern: "%s" must have name.', $pattern));
+                    }
+
+                    $callbackProvider = function () use ($container, $data) {
+                        return self::getService($container, $data['service']);
+                    };
+
+                    $route = $router->map(
+                        explode(self::METHOD_DELIMITER, $method),
+                        $pattern,
+                        new RouteCallbackAccessor($callbackProvider)
+                    );
+                    $route->setName($data['name']);
                 }
-
-                $callbackProvider = function () use ($container, $data) {
-                    return self::getService($container, $data['service']);
-                };
-
-                $route = $router->map(
-                    explode(self::METHOD_DELIMITER, $method),
-                    $pattern,
-                    new RouteCallbackAccessor($callbackProvider)
-                );
-                $route->setName($data['name']);
             }
         }
 
