@@ -28,7 +28,8 @@ final class RouteCallbackAccessor
     public function getCallback(): callable
     {
         if ($this->callback === null) {
-            $this->callback = $this->callbackLoader();
+            $loader = $this->callbackLoader;
+            $this->callback = $loader();
         }
 
         return $this->callback;
