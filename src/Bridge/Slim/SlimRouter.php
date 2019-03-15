@@ -3,52 +3,27 @@
 namespace BrandEmbassy\Router\Bridge\Slim;
 
 use BrandEmbassy\Router\Route;
-use BrandEmbassy\Router\Router;
+use BrandEmbassy\Router\RouteDispatcher;
+use BrandEmbassy\Router\UrlGenerator;
 use FastRoute\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
 use Slim\Http\Uri;
-use Slim\Interfaces\RouteInterface;
-use function array_map;
+use Slim\Router;
 use function assert;
 use function urldecode;
 
-final class SlimRouter implements Router
+final class SlimRouter implements RouteDispatcher, UrlGenerator
 {
     /**
-     * @var \Slim\Router
+     * @var Router
      */
     private $router;
 
 
-    public function __construct(\Slim\Router $router)
+    public function __construct(Router $router)
     {
         $this->router = $router;
-    }
-
-
-    /**
-     * @param string   $routePath
-     * @param string[] $params
-     * @param string[] $queryParams
-     * @return UriInterface
-     */
-    public function pathFor(string $routePath, array $params = [], array $queryParams = []): UriInterface
-    {
-        return Uri::createFromString($this->router->pathFor($routePath, $params, $queryParams));
-    }
-
-
-    /**
-     * @param string   $name
-     * @param string[] $methods
-     * @param string   $pattern
-     * @param callable $handler
-     */
-    public function map(string $name, array $methods, string $pattern, callable $handler): void
-    {
-        $route = $this->router->map($methods, $pattern, $handler);
-        $route->setName($name);
     }
 
 
@@ -73,15 +48,13 @@ final class SlimRouter implements Router
 
 
     /**
-     * @return Route[]
+     * @param string   $routePath
+     * @param string[] $params
+     * @param string[] $queryParams
+     * @return UriInterface
      */
-    public function getRoutes(): array
+    public function pathFor(string $routePath, array $params = [], array $queryParams = []): UriInterface
     {
-        return array_map(
-            function (RouteInterface $route): Route {
-                return new SlimRoute($route);
-            },
-            $this->router->getRoutes()
-        );
+        return Uri::createFromString($this->router->pathFor($routePath, $params, $queryParams));
     }
 }
