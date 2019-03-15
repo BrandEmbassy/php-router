@@ -2,9 +2,10 @@
 
 namespace BrandEmbassy\Router\Bridge\Slim;
 
-use BrandEmbassy\Router\Router;
+use BrandEmbassy\Router\RouteDispatcher;
 use LogicException;
 use Nette\DI\Container;
+use Slim\Router;
 use function explode;
 use function is_callable;
 use function sprintf;
@@ -19,28 +20,13 @@ final class SlimRouterNetteDiFactory
      * @param Container $container
      * @param string    $namespace
      * @param mixed[]   $routes
-     * @return Router
+     * @return RouteDispatcher
      */
-    public static function createRouter(Container $container, string $namespace, array $routes): Router
+    public static function create(Container $container, string $namespace, array $routes): RouteDispatcher
     {
-        $router = new SlimRouter(new \Slim\Router());
+        $router = self::createSlimRouter($container, $namespace, $routes);
 
-        $routes = self::getAppRoutes($namespace, $routes);
-        foreach ($routes as $pattern => $definition) {
-            foreach ($definition as $method => $data) {
-                if (!isset($data['name'])) {
-                    throw new LogicException(sprintf('Route with pattern: "%s" must have name.', $pattern));
-                }
-                $router->map(
-                    $data['name'],
-                    explode(self::METHOD_DELIMITER, $method),
-                    $pattern,
-                    self::getService($container, $data['service'])
-                );
-            }
-        }
-
-        return $router;
+        return new SlimRouter($router);
     }
 
 
@@ -69,5 +55,34 @@ final class SlimRouterNetteDiFactory
         }
 
         return $service;
+    }
+
+
+    /**
+     * @param Container $container
+     * @param string    $namespace
+     * @param mixed[]   $routes
+     * @return Router
+     */
+    private static function createSlimRouter(Container $container, string $namespace, array $routes): Router
+    {
+        $router = new Router();
+
+        $routes = self::getAppRoutes($namespace, $routes);
+        foreach ($routes as $pattern => $definition) {
+            foreach ($definition as $method => $data) {
+                if (!isset($data['name'])) {
+                    throw new LogicException(sprintf('Route with pattern: "%s" must have name.', $pattern));
+                }
+                $route = $router->map(
+                    explode(self::METHOD_DELIMITER, $method),
+                    $pattern,
+                    self::getService($container, $data['service'])
+                );
+                $route->setName($data['name']);
+            }
+        }
+
+        return $router;
     }
 }
