@@ -7,25 +7,31 @@ use Slim\Interfaces\RouteInterface;
 
 final class SlimRoute implements Route
 {
+
     /**
      * @var RouteInterface
      */
     private $route;
-
 
     public function __construct(RouteInterface $route)
     {
         $this->route = $route;
     }
 
-
     /**
      * @param string $name
-     * @param mixed  $default
+     * @param mixed $default
      * @return mixed
      */
     public function getArgument(string $name, $default = null)
     {
         return $this->route->getArgument($name, $default);
+    }
+
+    public function getCallable(): callable
+    {
+        \assert($this->route instanceof \Slim\Route);
+
+        return $this->route->getCallable();
     }
 }

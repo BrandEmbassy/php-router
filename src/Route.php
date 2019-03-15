@@ -4,10 +4,13 @@ namespace BrandEmbassy\Router;
 
 interface Route
 {
+
     /**
      * @param string $name
-     * @param mixed  $default
+     * @param mixed $default
      * @return mixed
      */
     public function getArgument(string $name, $default = null);
+
+    public function getCallable(): callable;
 }
