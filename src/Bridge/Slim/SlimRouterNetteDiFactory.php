@@ -77,7 +77,9 @@ final class SlimRouterNetteDiFactory
                 $route = $router->map(
                     explode(self::METHOD_DELIMITER, $method),
                     $pattern,
-                    self::getService($container, $data['service'])
+                    function (...$args) use ($container, $data) {
+                        return self::getService($container, $data['service'])(...$args);
+                    }
                 );
                 $route->setName($data['name']);
             }
