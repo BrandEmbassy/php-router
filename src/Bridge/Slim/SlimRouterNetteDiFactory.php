@@ -7,7 +7,6 @@ use LogicException;
 use Nette\DI\Container;
 use Slim\Router;
 use function explode;
-use function is_callable;
 use function sprintf;
 
 final class SlimRouterNetteDiFactory
@@ -28,15 +27,17 @@ final class SlimRouterNetteDiFactory
     }
 
 
-    private static function getService(Container $container, string $identifier): callable
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
+     * @param Container $container
+     * @param string    $identifier
+     * @return callable
+     */
+    private static function getService(Container $container, string $identifier)
     {
         $service = $container->getByType($identifier, false);
         if ($service === null) {
             $service = $container->getService($identifier);
-        }
-
-        if (!is_callable($service)) {
-            throw new LogicException(sprintf('Service "%s" must be callable.', $identifier));
         }
 
         return $service;

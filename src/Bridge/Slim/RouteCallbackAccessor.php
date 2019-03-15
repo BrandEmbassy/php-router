@@ -2,6 +2,9 @@
 
 namespace BrandEmbassy\Router\Bridge\Slim;
 
+/**
+ * @deprecated This class is here fo back compatibility only.
+ */
 final class RouteCallbackAccessor
 {
     /**
@@ -21,13 +24,22 @@ final class RouteCallbackAccessor
     }
 
 
+    /**
+     * @param mixed ...$args
+     * @return mixed
+     */
     public function __invoke(...$args)
     {
         return $this->getCallback()(...$args);
     }
 
 
-    public function getCallback(): callable
+    /**
+     * @deprecated You should NEVER call this method. This is here only for back compatibility!
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
+     * @return callable
+     */
+    public function getCallback()
     {
         if ($this->callback === null) {
             $loader = $this->callbackLoader;
