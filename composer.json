@@ -1,0 +1,32 @@
+{
+  "name": "brandembassy/php-router",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "BrandEmbassy\\Router\\": "src"
+    }
+  },
+  "require": {
+    "php": "~7.2",
+    "psr/http-message": "^1.0"
+  },
+  "suggest": {
+    "slim/slim": "Allows usage of slim-router."
+  },
+  "require-dev": {
+    "brandembassy/coding-standard": "^5.2",
+    "phpunit/phpunit": "^8",
+    "roave/security-advisories": "dev-master",
+    "slim/slim": "^3.12"
+  },
+  "scripts": {
+    "phpcs": "./vendor/bin/phpcs --standard=BrandEmbassyCodingStandard src",
+    "phpcbf": "./vendor/bin/phpcbf --standard=BrandEmbassyCodingStandard src",
+    "phpstan": "./vendor/bin/phpstan analyse src -c phpstan.neon",
+    "test": "./vendor/bin/phpunit src"
+  },
+  "config": {
+    "sort-packages": true,
+    "process-timeout": 600
+  }
+}
