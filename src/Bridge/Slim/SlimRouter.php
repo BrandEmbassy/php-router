@@ -37,7 +37,7 @@ final class SlimRouter implements RouteDispatcher, UrlGenerator
             }
 
             $route = $this->router->lookupRoute($routeInfo[1]);
-            assert($route instanceof Route);
+            assert($route instanceof \Slim\Route);
             $route->prepare($request, $routeArguments);
 
             return new SlimRoute($route);
