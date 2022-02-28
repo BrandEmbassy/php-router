@@ -9,15 +9,16 @@ use Slim\Router;
 use function explode;
 use function sprintf;
 
-final class SlimRouterNetteDiFactory
+/**
+ * @final
+ */
+class SlimRouterNetteDiFactory
 {
     private const METHOD_DELIMITER = '|';
 
 
     /**
-     * @param Container $container
      * @param mixed[]   $routes
-     * @return RouteDispatcher
      */
     public static function create(Container $container, array $routes): RouteDispatcher
     {
@@ -28,12 +29,9 @@ final class SlimRouterNetteDiFactory
 
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
-     * @param Container $container
-     * @param string    $identifier
-     * @return callable
+     * @param class-string $identifier
      */
-    private static function getService(Container $container, string $identifier)
+    private static function getService(Container $container, string $identifier): callable
     {
         $service = $container->getByType($identifier, false);
         if ($service === null) {
@@ -45,9 +43,7 @@ final class SlimRouterNetteDiFactory
 
 
     /**
-     * @param Container $container
      * @param mixed[]   $routes
-     * @return Router
      */
     private static function createSlimRouter(Container $container, array $routes): Router
     {
@@ -60,7 +56,7 @@ final class SlimRouterNetteDiFactory
                         throw new LogicException(sprintf('Route with pattern: "%s" must have name.', $pattern));
                     }
 
-                    $callbackProvider = function () use ($container, $data) {
+                    $callbackProvider = function () use ($container, $data): callable {
                         return self::getService($container, $data['service']);
                     };
 

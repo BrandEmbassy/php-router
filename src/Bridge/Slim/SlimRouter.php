@@ -13,12 +13,12 @@ use Slim\Router;
 use function assert;
 use function urldecode;
 
-final class SlimRouter implements RouteDispatcher, UrlGenerator
+/**
+ * @final
+ */
+class SlimRouter implements RouteDispatcher, UrlGenerator
 {
-    /**
-     * @var Router
-     */
-    private $router;
+    private Router $router;
 
 
     public function __construct(Router $router)
@@ -48,10 +48,8 @@ final class SlimRouter implements RouteDispatcher, UrlGenerator
 
 
     /**
-     * @param string   $routePath
      * @param string[] $params
      * @param string[] $queryParams
-     * @return UriInterface
      */
     public function pathFor(string $routePath, array $params = [], array $queryParams = []): UriInterface
     {
@@ -60,10 +58,8 @@ final class SlimRouter implements RouteDispatcher, UrlGenerator
 
 
     /**
-     * @param string   $routePath
      * @param string[] $params
      * @param string[] $queryParams
-     * @return UriInterface
      */
     public function relativePathFor(string $routePath, array $params = [], array $queryParams = []): UriInterface
     {

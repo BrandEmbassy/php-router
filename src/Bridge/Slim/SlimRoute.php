@@ -6,12 +6,12 @@ use BrandEmbassy\Router\Route;
 use Slim\Interfaces\RouteInterface;
 use function assert;
 
-final class SlimRoute implements Route
+/**
+ * @final
+ */
+class SlimRoute implements Route
 {
-    /**
-     * @var RouteInterface
-     */
-    private $route;
+    private RouteInterface $route;
 
 
     public function __construct(RouteInterface $route)
@@ -21,8 +21,8 @@ final class SlimRoute implements Route
 
 
     /**
-     * @param string $name
      * @param mixed  $default
+     *
      * @return mixed
      */
     public function getArgument(string $name, $default = null)
