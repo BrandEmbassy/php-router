@@ -18,7 +18,7 @@ class SlimRouterNetteDiFactory
 
 
     /**
-     * @param mixed[]   $routes
+     * @param mixed[] $routes
      */
     public static function create(Container $container, array $routes): RouteDispatcher
     {
@@ -30,8 +30,10 @@ class SlimRouterNetteDiFactory
 
     /**
      * @param class-string $identifier
+     *
+     * @return callable|object
      */
-    private static function getService(Container $container, string $identifier): callable
+    private static function getService(Container $container, string $identifier)
     {
         $service = $container->getByType($identifier, false);
         if ($service === null) {
@@ -43,7 +45,7 @@ class SlimRouterNetteDiFactory
 
 
     /**
-     * @param mixed[]   $routes
+     * @param mixed[] $routes
      */
     private static function createSlimRouter(Container $container, array $routes): Router
     {
@@ -56,7 +58,7 @@ class SlimRouterNetteDiFactory
                         throw new LogicException(sprintf('Route with pattern: "%s" must have name.', $pattern));
                     }
 
-                    $callbackProvider = function () use ($container, $data): callable {
+                    $callbackProvider = function () use ($container, $data) {
                         return self::getService($container, $data['service']);
                     };
 
