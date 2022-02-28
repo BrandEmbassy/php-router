@@ -2,10 +2,14 @@
 
 namespace BrandEmbassy\Router\Bridge\Slim;
 
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Slim\Router;
 
-final class SlimRouterTest extends TestCase
+/**
+ * @final
+ */
+class SlimRouterTest extends TestCase
 {
     public function testPathFor(): void
     {
@@ -21,6 +25,6 @@ final class SlimRouterTest extends TestCase
 
         $url = $router->pathFor('fooRoute', ['foo' => 'FOO1', 'bar' => 'BAR1'], ['baz' => 'BAZ1']);
 
-        self::assertEquals('/foo/FOO1/bar/BAR1?baz=BAZ1', (string)$url);
+        Assert::assertEquals('/foo/FOO1/bar/BAR1?baz=BAZ1', (string)$url);
     }
 }

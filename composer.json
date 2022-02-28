@@ -7,7 +7,7 @@
     }
   },
   "require": {
-    "php": "~7.2",
+    "php": ">=7.2",
     "psr/http-message": "^1.0"
   },
   "suggest": {
@@ -15,9 +15,9 @@
     "nette/di": "Allows usage of Router in Nette DI container."
   },
   "require-dev": {
-    "brandembassy/coding-standard": "^5.2",
+    "brandembassy/coding-standard": "^8.6",
     "mockery/mockery": "^1.2",
-    "nette/di": "^2.4",
+    "nette/di": "^2.4 || ^3.0",
     "phpunit/phpunit": "^8",
     "roave/security-advisories": "dev-master",
     "slim/slim": "^3.12"
