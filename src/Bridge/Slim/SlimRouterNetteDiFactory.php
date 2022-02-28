@@ -29,7 +29,7 @@ class SlimRouterNetteDiFactory
 
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.TypeHintDeclaration.MissingReturnTypeHint
+     * @param class-string $identifier
      */
     private static function getService(Container $container, string $identifier): callable
     {
@@ -56,7 +56,7 @@ class SlimRouterNetteDiFactory
                         throw new LogicException(sprintf('Route with pattern: "%s" must have name.', $pattern));
                     }
 
-                    $callbackProvider = function () use ($container, $data) {
+                    $callbackProvider = function () use ($container, $data): callable {
                         return self::getService($container, $data['service']);
                     };
 
