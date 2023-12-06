@@ -18,7 +18,7 @@ class SlimRouterTest extends TestCase
             ['GET'],
             '/foo/{foo}/bar/{bar}',
             function (): void {
-            }
+            },
         );
         $route->setName('fooRoute');
         $router = new SlimRouter($slimRouter);

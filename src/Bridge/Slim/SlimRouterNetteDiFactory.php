@@ -58,14 +58,12 @@ class SlimRouterNetteDiFactory
                         throw new LogicException(sprintf('Route with pattern: "%s" must have name.', $pattern));
                     }
 
-                    $callbackProvider = function () use ($container, $data) {
-                        return self::getService($container, $data['service']);
-                    };
+                    $callbackProvider = fn() => self::getService($container, $data['service']);
 
                     $route = $router->map(
                         explode(self::METHOD_DELIMITER, $method),
                         $pattern,
-                        new RouteCallbackAccessor($callbackProvider)
+                        new RouteCallbackAccessor($callbackProvider),
                     );
                     $route->setName($data['name']);
                 }
