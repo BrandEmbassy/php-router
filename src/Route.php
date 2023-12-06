@@ -13,4 +13,7 @@ interface Route
 
 
     public function getCallable(): callable;
+
+
+    public function getName(): ?string;
 }

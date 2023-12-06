@@ -5,8 +5,6 @@ namespace BrandEmbassy\Router\Bridge\Slim;
 use BrandEmbassy\Router\Route;
 use Slim\Interfaces\RouteInterface;
 use function assert;
-use function call_user_func_array;
-use function is_callable;
 
 /**
  * @final
@@ -41,16 +39,8 @@ class SlimRoute implements Route
     }
 
 
-    /**
-     * @param mixed $arguments
-     *
-     * @return mixed
-     */
-    public function __call(string $method, $arguments)
+    public function getName(): ?string
     {
-        $callable = [$this->route, $method];
-        assert(is_callable($callable));
-
-        return call_user_func_array($callable, $arguments);
+        return $this->route->getName();
     }
 }
