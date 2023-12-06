@@ -37,4 +37,10 @@ class SlimRoute implements Route
 
         return $this->route->getCallable();
     }
+
+
+    public function getName(): ?string
+    {
+        return $this->route->getName();
+    }
 }
