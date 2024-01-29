@@ -114,9 +114,9 @@ jobs:
         run: composer test
         if: matrix.php-version != '8.0' && matrix.composer-arg != 'install'
 
-      # - name: Run tests with coverage
-      #   run: composer test-with-coverage
-      #   if: matrix.php-version == '8.0' && matrix.composer-arg == 'install'
+      - name: Run tests with coverage
+        run: composer test-with-coverage
+        if: matrix.php-version == '8.0' && matrix.composer-arg == 'install'
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@master
